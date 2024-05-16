@@ -14,9 +14,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.myapplication.R;
+import com.example.myapplication.database.Repository;
+import com.example.myapplication.entities.Excursion;
+import com.example.myapplication.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class VacationList extends AppCompatActivity {
+    private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,17 @@ public class VacationList extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.sample) {
-            Toast.makeText(VacationList.this,"put in sample data", Toast.LENGTH_LONG).show();
+            repository= new Repository(getApplication());
+           // Toast.makeText(VacationList.this,"put in sample data", Toast.LENGTH_LONG).show();
+            Vacation vacation=new Vacation(0,"Fiji", 3500.00);
+            repository.insert(vacation);
+            vacation = new Vacation(0, "Dominican Republic", 2750.00);
+            repository.insert(vacation);
+            Excursion excursion= new Excursion(1, "Snorkeling", 150.00,1);
+            repository.insert(excursion);
+            excursion= new Excursion(0, "Deep Sea Fishing", 500.00, 1);
+            repository.insert(excursion);
+
             return true;
         }
 
