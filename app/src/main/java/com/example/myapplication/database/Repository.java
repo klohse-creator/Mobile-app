@@ -28,7 +28,7 @@ public class Repository {
 
     }
 
-    public List<Vacation> getAllVacations() {
+    public List<Vacation> getmAllVacations() {
         databaseExecutor.execute(() -> {
             mAllVacations = mVacationDAO.getAllVacations();
 
