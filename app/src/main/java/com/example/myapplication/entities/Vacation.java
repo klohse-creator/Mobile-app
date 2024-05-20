@@ -27,6 +27,10 @@ public class Vacation {
         this.vacationID = vacationID;
     }
 
+    public String toString() {
+        return vacationName;
+    }
+
     public String getVacationName() {
         return vacationName;
     }
@@ -43,6 +47,8 @@ public class Vacation {
         this.price = price;
     }
 }
+
+
 
 
 
