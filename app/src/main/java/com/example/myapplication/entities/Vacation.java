@@ -4,6 +4,8 @@ package com.example.myapplication.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "vacations")
 public class Vacation {
 
@@ -11,12 +13,45 @@ public class Vacation {
     private int vacationID;
     private String vacationName;
 
-    private double price;
+    private  String hotel;
 
-    public Vacation(int vacationID, String vacationName, double price) {
+    private String startDate;
+
+    private String endDate;
+
+    public String getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(String hotel) {
+        this.hotel = hotel;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+
+
+    public Vacation(int vacationID, String vacationName,String hotel, String startDate, String endDate) {
         this.vacationID = vacationID;
         this.vacationName = vacationName;
-        this.price = price;
+        this.hotel = hotel;
+        this.startDate = startDate;
+        this.endDate = endDate;
+
     }
 
     public int getVacationID() {
@@ -39,13 +74,9 @@ public class Vacation {
         this.vacationName = vacationName;
     }
 
-    public double getPrice() {
-        return price;
-    }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+
+
 }
 
 

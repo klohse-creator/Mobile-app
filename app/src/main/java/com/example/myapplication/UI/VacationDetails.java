@@ -1,5 +1,7 @@
 package com.example.myapplication.UI;
 
+import static android.app.ProgressDialog.show;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,20 +24,36 @@ import com.example.myapplication.entities.Excursion;
 import com.example.myapplication.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class VacationDetails extends AppCompatActivity {
     String name;
-    double price;
+
+    String hotel;
+
+    String startDate;
+
+    String endDate;
+
+
     int vacationID;
     EditText editName;
-    EditText editPrice;
+    EditText editHotel;
+
+    EditText editStartDate;
+
+    EditText editEndDate;
     Repository repository;
 
     Vacation currentVacation;
 
     int numExcursions;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +63,39 @@ public class VacationDetails extends AppCompatActivity {
 
 
         editName = findViewById(R.id.vacationname);
-        editPrice = findViewById(R.id.vacationprice);
+        editHotel = findViewById(R.id.hotel);
+        editStartDate = findViewById(R.id.startdate);
+        editEndDate = findViewById(R.id.enddate);
         name = getIntent().getStringExtra("name");
-        price = getIntent().getDoubleExtra("price", 0.0);
+        hotel = getIntent().getStringExtra("hotel");
+        startDate = getIntent().getStringExtra("Start Date");
+        endDate = getIntent().getStringExtra("End Date");
         editName.setText(name);
-        editPrice.setText(Double.toString(price));
+        editHotel.setText(hotel);
+        editStartDate.setText(startDate);
+        editEndDate.setText(endDate);
         vacationID = getIntent().getIntExtra("id", -1);
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-YYYY");
+        Date startDate = null;
+        Date endDate = null;
+        Vacation vacation;
+        try {
+            startDate = dateFormat.parse(getIntent().getStringExtra("Start Date"));
+            endDate = dateFormat.parse(getIntent().getStringExtra("End Date"));
+
+            if (startDate != null && endDate != null && startDate.before(endDate)) {
+                Vacation updatedVacation = new Vacation(vacationID, editName.getText().toString(), editHotel.getText().toString(),
+                        editStartDate.getText().toString(), editEndDate.getText().toString());
+                repository.updateVacation(updatedVacation);
+                this.finish();
+            } else {
+                Toast.makeText(getApplicationContext(), "Invalid date selection", Toast.LENGTH_SHORT).show();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton2);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,10 +114,12 @@ public class VacationDetails extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<Excursion> filteredExcursions = new ArrayList<>();
         for (Excursion p : repository.getAllExcursions()) {
-            if(p.getVacationID() == vacationID) filteredExcursions.add(p);
+            if (p.getVacationID() == vacationID) filteredExcursions.add(p);
         }
         excursionAdapter.setExcursions(filteredExcursions);
+
     }
+
 
     public boolean OnCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_vacationdetails, menu);
@@ -85,12 +132,12 @@ public class VacationDetails extends AppCompatActivity {
             if (vacationID == -1) {
                 if (repository.getmAllVacations().size() == 0) vacationID = 1;
                 else vacationID = repository.getmAllVacations().get(repository.getmAllVacations().size() - 1).getVacationID() + 1;
-                vacation = new Vacation(vacationID, editName.getText().toString(), Double.parseDouble(editPrice.getText().toString()));
+                vacation = new Vacation(vacationID, editName.getText().toString(), editHotel.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
                 repository.insert(vacation);
                 this.finish();
             }
             else
-            { vacation = new Vacation(vacationID, editName.getText().toString(), Double.parseDouble(editPrice.getText().toString()));
+            { vacation = new Vacation(vacationID, editName.getText().toString(), editHotel.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
                 repository.update(vacation);
                 this.finish();
             }

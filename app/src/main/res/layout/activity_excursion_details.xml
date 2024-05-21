@@ -4,100 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.ExcursionDetails" >
-
+    tools:context=".UI.ExcursionDetails">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="202dp">
-
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:ignore="MissingConstraints">
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:text="Date"
-                tools:layout_editor_absoluteX="41dp"
-                tools:layout_editor_absoluteY="243dp" />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                tools:layout_editor_absoluteX="41dp"
-                tools:layout_editor_absoluteY="287dp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:ignore="MissingConstraints">
-
-
-            <TextView
-
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:text="Note"
-                tools:layout_editor_absoluteX="41dp"
-                tools:layout_editor_absoluteY="243dp" />
-
-            <EditText
-                android:id="@+id/note"
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:inputType="text"
-                tools:layout_editor_absoluteX="107dp"
-                tools:layout_editor_absoluteY="73dp" />
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        tools:layout_editor_absoluteX="188dp"
+        tools:layout_editor_absoluteY="-30dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:ignore="MissingConstraints">
-
-            <TextView
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:text="Price"
-                tools:layout_editor_absoluteX="41dp"
-                tools:layout_editor_absoluteY="144dp" />
-
-
-            <EditText
-                android:id="@+id/excursionPrice"
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:inputType="text"
-                tools:layout_editor_absoluteX="107dp"
-                tools:layout_editor_absoluteY="73dp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:ignore="MissingConstraints">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="200dp"
@@ -108,16 +27,68 @@
             <EditText
                 android:id="@+id/excursionName"
                 android:layout_width="200dp"
-                android:layout_height="50dp" />
-
-            <Spinner
-                android:id="@+id/action_bar_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                tools:ignore="MissingConstraints" />
-
+                android:layout_height="match_parent" />
         </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:text="Price" />
+
+            <EditText
+                android:id="@+id/excursionPrice"
+                android:layout_width="200dp"
+                android:layout_height="match_parent" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:text="Note" />
+
+            <EditText
+                android:id="@+id/note"
+                android:layout_width="200dp"
+                android:layout_height="match_parent" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:text="Date" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:inputType="none" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <Spinner
+            android:id="@+id/action_bar_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:datePickerMode="spinner" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 

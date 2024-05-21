@@ -127,4 +127,7 @@ public class Repository {
             e.printStackTrace();
         }
     }
+
+    public void updateVacation(Vacation updatedVacation) {
+    }
 }
