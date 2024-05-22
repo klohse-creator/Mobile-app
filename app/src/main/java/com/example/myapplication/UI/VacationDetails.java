@@ -2,6 +2,9 @@ package com.example.myapplication.UI;
 
 import static android.app.ProgressDialog.show;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class VacationDetails extends AppCompatActivity {
     String name;
@@ -77,6 +81,14 @@ public class VacationDetails extends AppCompatActivity {
         vacationID = getIntent().getIntExtra("id", -1);
 
 
+
+        if(!isValidDateFormat(startDate) || !isValidDateFormat(endDate)) {
+            Toast.makeText(getApplicationContext(), "Not a valid date Format", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-YYYY");
         Date startDate = null;
         Date endDate = null;
@@ -120,12 +132,25 @@ public class VacationDetails extends AppCompatActivity {
 
     }
 
+    private boolean isValidDateFormat(String dateStr) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(dateStr);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+
 
     public boolean OnCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_vacationdetails, menu);
         return true;
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.vacationsave) {
             Vacation vacation;
@@ -161,7 +186,45 @@ public class VacationDetails extends AppCompatActivity {
             }
 
         }
-        return true;
+
+        if (item.getItemId()==R.id.notifyvacation) {
+            String startDateStr = editStartDate.getText().toString();
+            String endDateStr = editEndDate.getText().toString();
+
+           if(!isValidDateFormat(startDateStr) || !isValidDateFormat(endDateStr)) {
+               Toast.makeText(getApplicationContext(), "Invalid date format", Toast.LENGTH_SHORT).show();
+               return true;
+           }
+           SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+            try {
+                Date startDate = dateFormat.parse(startDateStr);
+                Date endDate = dateFormat.parse(endDateStr);
+
+                setAlarm(startDate, "Starting " + editName.getText().toString());
+                setAlarm(endDate, "Ending " + editName.getText().toString());
+
+                Toast.makeText(getApplicationContext(), "Alarms set successfully", Toast.LENGTH_SHORT).show();
+            } catch (ParseException e) {
+                e.printStackTrace();
+
+            }
+            }
+        return super.onOptionsItemSelected(item);
     }
-}
+
+
+        private void setAlarm(Date date, String message) {
+            try {
+                long trigger = date.getTime();
+                Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
+                intent.putExtra("key", message);
+                PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 

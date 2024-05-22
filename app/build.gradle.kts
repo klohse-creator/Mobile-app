@@ -39,7 +39,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     //Room components
-    val room_version = "2.6.1"
+    val room_version = "2.5.1"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     androidTestImplementation("androidx.room:room-testing:$room_version")
