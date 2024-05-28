@@ -12,17 +12,19 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:clickable="true"
-        android:onClick="enterExcursionDetails"
+        android:onClick="enterExcursionDetail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:srcCompat="@drawable/ic_launcher_foreground"
+        tools:layout_editor_absoluteX="340dp"
+        tools:layout_editor_absoluteY="681dp" />
+
 
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="409dp"
         android:layout_height="200dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -45,8 +47,7 @@
                 <EditText
                     android:id="@+id/vacationname"
                     android:layout_width="100dp"
-                    android:layout_height="48dp"
-                    android:inputType="text" />
+                    android:layout_height="48dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -79,7 +80,6 @@
                     android:id="@+id/startdate"
                     android:layout_width="100dp"
                     android:layout_height="48dp" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -98,9 +98,7 @@
                     android:layout_height="48dp" />
             </LinearLayout>
 
-
         </LinearLayout>
-
     </ScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -123,7 +121,6 @@
         android:text="Excursions"
         app:layout_constraintBottom_toTopOf="@+id/excursionrecyclerview"
         app:layout_constraintStart_toStartOf="@+id/excursionrecyclerview"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

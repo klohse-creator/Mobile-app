@@ -57,7 +57,7 @@ public class ExcursionDetails extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         repository = new Repository(getApplication());
         name = getIntent().getStringExtra("name");
-        editName = findViewById(R.id.excursionName);
+        editName = findViewById(R.id.excursionname);
         editName.setText(name);
         excursionID = getIntent().getIntExtra("id", -1);
         vacaID = getIntent().getIntExtra("vacaID", -1);
