@@ -66,8 +66,8 @@ public class VacationDetails extends AppCompatActivity {
         editEndDate = findViewById(R.id.enddate);
         name = getIntent().getStringExtra("name");
         hotel = getIntent().getStringExtra("hotel");
-        startDate = getIntent().getStringExtra("Start Date");
-        endDate = getIntent().getStringExtra("End Date");
+        startDate = getIntent().getStringExtra("startDate");
+        endDate = getIntent().getStringExtra("endDate");
         editName.setText(name);
         editHotel.setText(hotel);
         editStartDate.setText(startDate);
@@ -117,18 +117,18 @@ public class VacationDetails extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.vacationsave) {
-            String startDateStr = editStartDate.getText().toString();
-            String endDateStr = editEndDate.getText().toString();
+            startDate = editStartDate.getText().toString();
+            endDate = editEndDate.getText().toString();
 
-            if (!isValidDateFormat(startDateStr) || !isValidDateFormat(endDateStr)) {
+            if (!isValidDateFormat(startDate) || !isValidDateFormat(endDate)) {
                 Toast.makeText(getApplicationContext(), "Not a valid date Format", Toast.LENGTH_LONG).show();
                 return true;
             }
 
             try {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
-                Date start = dateFormat.parse(startDateStr);
-                Date end = dateFormat.parse(endDateStr);
+                Date start = dateFormat.parse(startDate);
+                Date end = dateFormat.parse(endDate);
 
                 if (start.after(end)) {
                     Toast.makeText(getApplicationContext(), "Start date must be before end date", Toast.LENGTH_LONG).show();
@@ -167,9 +167,7 @@ public class VacationDetails extends AppCompatActivity {
                 Toast.makeText(VacationDetails.this, "Can't delete a Vacation with these Excursions", Toast.LENGTH_LONG).show();
             }
 
-        }
-
-     else if (item.getItemId()==R.id.notifyvacation) {
+        } else if (item.getItemId() == R.id.notifyvacation) {
             String startDateStr = editStartDate.getText().toString();
             String endDateStr = editEndDate.getText().toString();
 
@@ -191,9 +189,22 @@ public class VacationDetails extends AppCompatActivity {
             }
             return true;
         }
+
+        if (item.getItemId() == R.id.vacationshare) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, editName.getText().toString());
+            sendIntent.putExtra(Intent.EXTRA_TEXT, editHotel.getText().toString());
+            sendIntent.putExtra(Intent.EXTRA_TEXT, editStartDate.getText().toString());
+            sendIntent.putExtra(Intent.EXTRA_TEXT, editEndDate.getText().toString());
+            sendIntent.putExtra(Intent.EXTRA_TITLE, "Vacation Details");
+            sendIntent.setType("text/plain");
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
-
 
         private void setAlarm(Date date, String message) {
             try {

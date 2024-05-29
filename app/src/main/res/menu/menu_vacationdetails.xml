@@ -8,4 +8,7 @@
         android:id="@+id/vacationdelete"/>
     <item android:title="Notifications for Vacation"
         android:id="@+id/notifyvacation"/>
+    <item android:title="Share Vacation Details"
+        android:id="@+id/vacationshare"/>
+
 </menu>
