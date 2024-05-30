@@ -71,7 +71,7 @@ public class ExcursionDetails extends AppCompatActivity {
         editName.setText(name);
 
 
-        String myFormat = "MM/dd/yy";
+        String myFormat = "MM-dd-yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
 
@@ -90,7 +90,7 @@ public class ExcursionDetails extends AppCompatActivity {
                 Date date;
                 //get value from other screen,but I'm going to hard code it right now
                 String info = editDate.getText().toString();
-                if (info.equals("")) info = "05/23/24";
+                if (info.equals("")) info = "05-23-2024";
                 try {
                     myCalendarStart.setTime(sdf.parse(info));
                 } catch (ParseException e) {
@@ -122,7 +122,7 @@ public class ExcursionDetails extends AppCompatActivity {
     }
 
     private void updateLabelStart() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM-dd-yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         editDate.setText(sdf.format(myCalendarStart.getTime()));
@@ -142,20 +142,63 @@ public class ExcursionDetails extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.excursionsave) {
+            //Validating that the excursion is between the saved Vacation Start and End Dates.
 
-                Excursion excursion;
-                if (excursionID == -1) {
-                    if (repository.getAllExcursions().size() == 0)
-                        excursionID = 1;
-                    else
-                        excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-                    excursion = new Excursion(excursionID, editName.getText().toString(), editDate.getText().toString(), vacaID);
-                    repository.insert(excursion);
-                } else {
-                    excursion = new Excursion(excursionID, editName.getText().toString(), editDate.getText().toString(), vacaID);
-                    repository.update(excursion);
+            String excursionTitle = editName.getText().toString();
+            String dateFromScreen = editDate.getText().toString();
+            String myFormat = "MM-dd-yyyy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate = null;
+
+            try {
+                myDate = sdf.parse(dateFromScreen);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if (myDate != null) {
+                Vacation associatedVacation = null;
+                for (Vacation vacation : repository.getmAllVacations()) {
+                    if (vacation.getVacationID() == vacaID) {
+                        associatedVacation = vacation;
+                        break;
+                    }
                 }
-                return true;}
+                if (associatedVacation != null) {
+                    String vacationStartDate = associatedVacation.getStartDate();
+                    String vacationEndDate = associatedVacation.getEndDate();
+
+                    try {
+                        Date startDate = sdf.parse(vacationStartDate);
+                        Date endDate = sdf.parse(vacationEndDate);
+
+                        if (myDate.after(startDate) && myDate.before(endDate)) {
+                            Excursion excursion;
+                            if (excursionID == -1) {
+                                if (repository.getAllExcursions().size() == 0) {
+                                    excursionID = 1;
+                                } else {
+                                    excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
+                                }
+                                excursion = new Excursion(excursionID, editName.getText().toString(), editDate.getText().toString(), vacaID);
+                                repository.insert(excursion);
+                                Toast.makeText(ExcursionDetails.this, "Excursion saved successfully", Toast.LENGTH_LONG).show();
+                            } else {
+                                excursion = new Excursion(excursionID, editName.getText().toString(), editDate.getText().toString(), vacaID);
+                                repository.update(excursion);
+                            }
+                        } else {
+                            Toast.makeText(ExcursionDetails.this, "Excursion date must be within the vacation period", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return true;
+            }
+        }
+
+
 
         if (item.getItemId() == R.id.excursiondelete) {
             if (excursionID != -1) {
@@ -183,7 +226,7 @@ public class ExcursionDetails extends AppCompatActivity {
         if (item.getItemId() == R.id.notify) {
             String excursionTitle = editName.getText().toString();
             String dateFromScreen = editDate.getText().toString();
-            String myFormat = "MM/dd/yy"; //In which you need put here
+            String myFormat = "MM-dd-yyyy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
             Date myDate = null;
             try {
