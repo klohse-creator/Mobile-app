@@ -64,7 +64,7 @@ public class ExcursionDetails extends AppCompatActivity {
         excursionID = getIntent().getIntExtra("id", -1);
         name = getIntent().getStringExtra("name");
         vacaID = getIntent().getIntExtra("vacaID", -1);
-        exDate = getIntent().getStringExtra("date");
+        exDate = getIntent().getStringExtra("exDate");
         editName = findViewById(R.id.excursionname);
         editNote = findViewById(R.id.note);
         editDate = findViewById(R.id.date);
@@ -142,61 +142,20 @@ public class ExcursionDetails extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.excursionsave) {
-            String excursionTitle = editName.getText().toString();
-            String dateFromScreen = editDate.getText().toString();
-            String myFormat = "MM/dd/yy"; //In which you need put here
-            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            Date myDate = null;
-            try {
-                myDate = sdf.parse(dateFromScreen);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (myDate != null) {
-                Vacation associatedVacation = null;
-                for (Vacation vacation : repository.getmAllVacations()) {
-                    if (vacation.getVacationID() == vacaID) {
-                        associatedVacation = vacation;
-                        break;
-                    }
-                }
-                if (associatedVacation != null) {
-                    String vacationStartDate = associatedVacation.getStartDate();
-                    String vacationEndDate = associatedVacation.getEndDate();
 
-                    try {
-                        Date startDate = sdf.parse(vacationStartDate);
-                        Date endDate = sdf.parse(vacationEndDate);
-
-                        if (myDate.after(startDate) && myDate.before(endDate)) {
-                            Excursion excursion;
-                            if (excursionID == -1) {
-                                if (repository.getAllExcursions().isEmpty())
-                                    excursionID = 1;
-
-                                else
-                                    excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-                                excursion = new Excursion(excursionID, editName.getText().toString(), editDate.getText().toString(), vacaID);
-                                repository.insert(excursion);
-                            } else {
-                                excursion = new Excursion(excursionID, editName.getText().toString(), editDate.getText().toString(), vacaID);
-                                repository.update(excursion);
-                            }
-                        } else {
-                            Toast.makeText(ExcursionDetails.this, "Excursion date must be within the vacation period", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                Excursion excursion;
+                if (excursionID == -1) {
+                    if (repository.getAllExcursions().size() == 0)
+                        excursionID = 1;
+                    else
+                        excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
+                    excursion = new Excursion(excursionID, editName.getText().toString(), editDate.getText().toString(), vacaID);
+                    repository.insert(excursion);
                 } else {
-                    Toast.makeText(ExcursionDetails.this, "Associated vacation not found", Toast.LENGTH_LONG).show();
+                    excursion = new Excursion(excursionID, editName.getText().toString(), editDate.getText().toString(), vacaID);
+                    repository.update(excursion);
                 }
-            } else {
-                Toast.makeText(ExcursionDetails.this, "Invalid date", Toast.LENGTH_LONG).show();
-            }
-            return true;
-        }
-
+                return true;}
 
         if (item.getItemId() == R.id.excursiondelete) {
             if (excursionID != -1) {
@@ -232,48 +191,21 @@ public class ExcursionDetails extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (myDate != null) {
-                Vacation associatedVacation = null;
-                for (Vacation vacation : repository.getmAllVacations()) {
-                    if (vacation.getVacationID() == vacaID) {
-                        associatedVacation = vacation;
-                        break;
-                    }
-                }
 
-                if (associatedVacation != null) {
-                    String vacationStartDate = associatedVacation.getStartDate();
-                    String vacationEndDate = associatedVacation.getEndDate();
+                try {
+                    Long trigger = myDate.getTime();
+                    Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
+                    intent.putExtra("key", "Excursion: " + excursionTitle);
+                    PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+                    Toast.makeText(ExcursionDetails.this, "Notifications set for " + name, Toast.LENGTH_LONG).show();
 
-                    try {
-                        Date startDate = sdf.parse(vacationStartDate);
-                        Date endDate = sdf.parse(vacationEndDate);
+                    } catch (Exception e) {
 
-                        if (myDate.after(startDate) && myDate.before(endDate)) {
-
-                            Long trigger = myDate.getTime();
-                            Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
-                            intent.putExtra("key", "Excursion: " + excursionTitle);
-                            PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
-                            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
-                            Toast.makeText(ExcursionDetails.this, "Notifications set for " + name, Toast.LENGTH_LONG).show();
-
-                        } else {
-                            Toast.makeText(ExcursionDetails.this, "Excursion date must be within the vacation period", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Toast.makeText(ExcursionDetails.this, "Associated vacation not found", Toast.LENGTH_LONG).show();
-                }
-            } else {
-                    Toast.makeText(ExcursionDetails.this, "Invalid date", Toast.LENGTH_LONG).show();
                 }
                     return true;
                 }
-
                 return super.onOptionsItemSelected(item);
             }
         }
