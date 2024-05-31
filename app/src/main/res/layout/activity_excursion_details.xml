@@ -68,7 +68,9 @@
                 android:id="@+id/date"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
-                android:inputType="none" />
+                android:layout_marginTop="50dp"
+                android:inputType="none"
+                android:hint="Tap to select date"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <Spinner

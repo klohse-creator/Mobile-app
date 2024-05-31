@@ -180,8 +180,10 @@ public class VacationDetails extends AppCompatActivity {
                 Date startDate = dateFormat.parse(startDateStr);
                 Date endDate = dateFormat.parse(endDateStr);
 
-                setAlarm(startDate, "Starting " + editName.getText().toString());
-                setAlarm(endDate, "Ending " + editName.getText().toString());
+                //Alarm that will display the vacation name and when it's starting and ending.
+
+                setAlarm(startDate, "Starting " + editName.getText().toString() + editStartDate.getText().toString());
+                setAlarm(endDate, "Ending " + editName.getText().toString() + editEndDate.getText().toString());
 
                 Toast.makeText(getApplicationContext(), "Alarms set successfully", Toast.LENGTH_LONG).show();
             } catch (ParseException e) {

@@ -16,7 +16,8 @@
         android:clickable="true"
         android:contentDescription="TODO"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"

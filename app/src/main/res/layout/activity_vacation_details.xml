@@ -12,11 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="30dp"
         android:clickable="true"
         android:onClick="enterExcursionDetail"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
@@ -79,7 +80,8 @@
                 <EditText
                     android:id="@+id/startdate"
                     android:layout_width="100dp"
-                    android:layout_height="48dp" />
+                    android:layout_height="48dp"
+                    android:hint="mm-dd-yyyy"/>
             </LinearLayout>
 
             <LinearLayout
@@ -95,43 +97,48 @@
                 <EditText
                     android:id="@+id/enddate"
                     android:layout_width="100dp"
-                    android:layout_height="48dp" />
+                    android:layout_height="48dp"
+                    android:hint="mm-dd-yyyy"/>
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/excursionrecyclerview"
-        android:layout_width="409dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="44dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ExcursionTitleBar" />
-
     <TextView
-        android:id="@+id/ExcursionTitleBar"
+        android:id="@+id/addExcursionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="251dp"
-        android:layout_marginBottom="6dp"
-        android:text="Excursions"
-        app:layout_constraintBottom_toTopOf="@+id/excursionrecyclerview"
-        app:layout_constraintStart_toStartOf="@+id/excursionrecyclerview"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginEnd="12dp"
+        android:text="Click to Add Excursions to your Vacation"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/floatingActionButton2"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton2" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="-32dp"
-        tools:layout_editor_absoluteY="-31dp">
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="308dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/excursionrecyclerview"
+            android:layout_width="150dp"
+            android:layout_height="269dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="44dp" />
 
+        <TextView
+            android:id="@+id/ExcursionTitleBar"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:hint="Scroll to see all your excursions"
+            android:text="Excursions" />
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
