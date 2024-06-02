@@ -167,7 +167,8 @@ public class VacationDetails extends AppCompatActivity {
                 Toast.makeText(VacationDetails.this, "Can't delete a Vacation with these Excursions", Toast.LENGTH_LONG).show();
             }
 
-        } else if (item.getItemId() == R.id.notifyvacation) {
+        }
+        if (item.getItemId() == R.id.notifyvacation) {
             String startDateStr = editStartDate.getText().toString();
             String endDateStr = editEndDate.getText().toString();
 
@@ -182,8 +183,8 @@ public class VacationDetails extends AppCompatActivity {
 
                 //Alarm that will display the vacation name and when it's starting and ending.
 
-                setAlarm(startDate, "Starting " + editName.getText().toString() + editStartDate.getText().toString());
-                setAlarm(endDate, "Ending " + editName.getText().toString() + editEndDate.getText().toString());
+                setAlarm(startDate, "Starting " + editName.getText().toString() + " " + editStartDate.getText().toString());
+                setAlarm(endDate, "Ending " + editName.getText().toString() + " " + editEndDate.getText().toString());
 
                 Toast.makeText(getApplicationContext(), "Alarms set successfully", Toast.LENGTH_LONG).show();
             } catch (ParseException e) {
@@ -214,7 +215,7 @@ public class VacationDetails extends AppCompatActivity {
                 int requestCode = (int) System.currentTimeMillis();
                 Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
                 intent.putExtra("key", message);
-                PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             } catch (Exception e) {
