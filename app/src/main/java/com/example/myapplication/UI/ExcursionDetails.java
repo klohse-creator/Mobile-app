@@ -238,8 +238,8 @@ public class ExcursionDetails extends AppCompatActivity {
                 try {
                     Long trigger = myDate.getTime();
                     Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
-                    intent.putExtra("key", "Excursion: " + excursionTitle);
-                    PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+                    intent.putExtra("key", "Excursion: " + excursionTitle + " " + exDate);
+                    PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                     alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
                     Toast.makeText(ExcursionDetails.this, "Notifications set for " + name, Toast.LENGTH_LONG).show();
