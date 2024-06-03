@@ -186,7 +186,7 @@ public class VacationDetails extends AppCompatActivity {
                 setAlarm(startDate, "Starting " + editName.getText().toString() + " " + editStartDate.getText().toString());
                 setAlarm(endDate, "Ending " + editName.getText().toString() + " " + editEndDate.getText().toString());
 
-                Toast.makeText(getApplicationContext(), "Alarms set successfully", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Alarms set successfully.", Toast.LENGTH_LONG).show();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -215,7 +215,7 @@ public class VacationDetails extends AppCompatActivity {
                 int requestCode = (int) System.currentTimeMillis();
                 Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
                 intent.putExtra("key", message);
-                PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, requestCode, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             } catch (Exception e) {
